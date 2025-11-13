@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import useServiceStore from "../../store/service.store";
+import { axiosInstance } from "../../utils/axiosInstance";
+import useUserStore from "../../store/user.store";
 
 export default function Dashboard() {
-  const { createService, services, getServices } = useServiceStore();
-
+  const { user } = useUserStore();
+  const { createService } = useServiceStore();
+  const [services, setServices] = useState([]);
   const [serviceData, setServiceData] = useState({
     name: "",
     description: "",
@@ -12,8 +15,16 @@ export default function Dashboard() {
   });
   const [isAddForm, setIsAddForm] = useState(false);
 
+  const fetchService = async () => {
+    const result = await axiosInstance.get("/service/getServices");
+    setServices(result.data.services || []);
+  };
+
   useEffect(() => {
-    getServices();
+    const fetch = async () => {
+      fetchService();
+    };
+    fetch();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +36,7 @@ export default function Dashboard() {
     e.preventDefault();
     try {
       await createService(serviceData);
-      await getServices(); 
+      await fetchService();
       setServiceData({ name: "", description: "", location: "", category: "" });
       setIsAddForm(false);
     } catch (error) {
@@ -35,12 +46,14 @@ export default function Dashboard() {
 
   return (
     <div className="flex relative">
-      <button
-        className="border rounded-2xl py-1 px-2 m-2"
-        onClick={() => setIsAddForm(!isAddForm)}
-      >
-        + Add Service
-      </button>
+      {user[0].role === "provider" && (
+        <button
+          className="border h-10 rounded-2xl py-1 px-2 m-2"
+          onClick={() => setIsAddForm(!isAddForm)}
+        >
+          + Add Service
+        </button>
+      )}
 
       <div className="2/3">
         {services.length > 0 ? (
@@ -69,8 +82,14 @@ export default function Dashboard() {
         <div className="absolute left-0 top-0 w-full h-screen flex justify-center items-center bg-black/50">
           <form
             onSubmit={addService}
-            className="flex flex-col bg-slate-300 p-4 rounded-lg shadow-md w-80"
+            className="flex flex-col relative bg-slate-300 p-4 rounded-lg shadow-md w-80"
           >
+            <button
+              className="absolute right-2 top-2 "
+              onClick={() => setIsAddForm(!isAddForm)}
+            >
+              ❌
+            </button>
             <h2 className="text-lg text-black font-semibold mb-2">
               Add Service
             </h2>

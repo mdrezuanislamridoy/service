@@ -4,8 +4,8 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon dist/server.ts",
-    "build": "tsc"
+    "dev": "node init && nodemon dist/server.ts",
+    "build": "node init && tsc"
   },
   "keywords": [],
   "author": "",
