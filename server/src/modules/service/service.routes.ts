@@ -11,10 +11,10 @@ import {
 const router = Router();
 
 router.post("/create", auth, checkRole("provider"), createServiceController);
-router.get("/get-services", getServicesController);
-router.get("/get-service", getServiceController);
+router.get("/getServices", getServicesController);
+router.get("/getService", getServiceController);
 router.get(
-  "/get-my-service",
+  "/getMyService",
   auth,
   checkRole("provider"),
   getMyServicesController

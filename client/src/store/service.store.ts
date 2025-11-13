@@ -11,14 +11,12 @@ const useServiceStore = create((set) => {
         console.log(error);
       }
     },
-    getServices: async () => {
-      try {
-        const result = await axiosInstance.get("/service/get-services");
-        set({ services: result.data.services || [] });
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // getServices: async () => {
+    //   try {
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
   };
 });
 
