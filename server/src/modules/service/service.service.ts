@@ -30,7 +30,7 @@ export const getServices = async (req: Request) => {
   }
   return {
     success: true,
-    message: "Service created successfully",
+    message: "Services fetched successfully",
     services,
   };
 };
@@ -42,7 +42,7 @@ export const getService = async (req: Request) => {
   }
   return {
     success: true,
-    message: "Service created successfully",
+    message: "Service fetched successfully",
     service,
   };
 };
@@ -54,7 +54,7 @@ export const getMyServices = async (req: Request) => {
   }
   return {
     success: true,
-    message: "Service created successfully",
+    message: "Services fetched successfully",
     services,
   };
 };
